@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
-import EmployeeContext from "../context/EmployeeContext";
+import useEmployees from "../hooks/useEmployees";
 
 function EmployeeForm(){
-    const { employees, setEmployees } = useContext(EmployeeContext);
+    const { addEmployee } = useEmployees();
 
     const [name, setName] = useState("");
     const [age, setAge] = useState("");
@@ -22,7 +22,7 @@ function EmployeeForm(){
             salary: Number(salary)
         };
 
-        setEmployees([...employees, newEmployee]);
+        addEmployee(newEmployee);
 
         setName("");
         setAge("");

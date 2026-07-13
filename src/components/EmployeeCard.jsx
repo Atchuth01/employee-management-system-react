@@ -1,4 +1,8 @@
+import useEmployees from "../hooks/useEmployees";
+
 function EmployeeCard({ employee }){
+    const { deleteEmployee } = useEmployees();
+
     return(
         <div className = "employee-card">
             <h2>{employee.name}</h2>
@@ -21,7 +25,7 @@ function EmployeeCard({ employee }){
 
             <div className = "card-buttons">
                 <button>Edit</button>
-                <button>Delete</button>
+                <button onClick = {() => deleteEmployee(employee.id)}>Delete</button>
             </div>
         </div>
     )

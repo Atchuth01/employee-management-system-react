@@ -1,4 +1,9 @@
+import useEmployees from "../hooks/useEmployees";
+import { Link } from "react-router-dom";
+
 function EmployeeCard({ employee }){
+    const { deleteEmployee } = useEmployees();
+
     return(
         <div className = "employee-card">
             <h2>{employee.name}</h2>
@@ -20,8 +25,10 @@ function EmployeeCard({ employee }){
             </p>
 
             <div className = "card-buttons">
+                <Link to = {`/edit-employee/${employee.id}`}>
                 <button>Edit</button>
-                <button>Delete</button>
+                </Link>
+                <button onClick={() => deleteEmployee(employee.id)}>Delete</button>
             </div>
         </div>
     )

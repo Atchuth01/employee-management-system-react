@@ -1,20 +1,22 @@
 import { useState, useContext } from "react";
-import EmployeeContext from "../context/EmployeeContext";
+import { useNavigate } from "react-router-dom";
+import useEmployees from "../hooks/useEmployees";
+ 
+function EmployeeForm( {employee, mode} ){
+    const { addEmployee, updateEmployee } = useEmployees();
+    const navigate = useNavigate();
 
-function EmployeeForm(){
-    const { employees, setEmployees } = useContext(EmployeeContext);
-
-    const [name, setName] = useState("");
-    const [age, setAge] = useState("");
-    const [department, setDepartment] = useState("");
-    const [email, setEmail] = useState("");
-    const [salary, setSalary] = useState("");
+    const [name, setName] = useState( employee ? employee.name : "");
+    const [age, setAge] = useState(employee ? employee.age : "");
+    const [department, setDepartment] = useState(employee ? employee.department : "");
+    const [email, setEmail] = useState(employee ? employee.email : "");
+    const [salary, setSalary] = useState(employee ? employee.salary : "");
 
     function handleSubmit(event) {
         event.preventDefault();
 
-        const newEmployee = {
-            id: Date.now(),
+        const employeeData = {
+            id: mode === "edit" ? employee.id : Date.now(),
             name,
             age: Number(age),
             department,
@@ -22,13 +24,14 @@ function EmployeeForm(){
             salary: Number(salary)
         };
 
-        setEmployees([...employees, newEmployee]);
+        if(mode === "edit"){
+            updateEmployee(employeeData);
+        }else{
+            addEmployee(employeeData);
+        }
 
-        setName("");
-        setAge("");
-        setDepartment("");
-        setEmail("");
-        setSalary("");
+        navigate("/employees");
+        
     }
 
     return(
